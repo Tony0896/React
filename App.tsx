@@ -1,110 +1,101 @@
 import React from 'react';
-import type { PropsWithChildren } from 'react';
 import {
+    Pressable,
     SafeAreaView,
     ScrollView,
     StatusBar,
     StyleSheet,
     Text,
+    Modal,
     useColorScheme,
     View,
 } from 'react-native';
-
-import {
-    Colors,
-    DebugInstructions,
-    Header,
-    LearnMoreLinks,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-    title: string;
-}>;
-
-function Section({ children, title }: SectionProps): JSX.Element {
-    const isDarkMode = useColorScheme() === 'dark';
-    return (
-        <View style={styles.sectionContainer}>
-            <Text
-                style={[
-                    styles.sectionTitle,
-                    {
-                        color: isDarkMode ? Colors.white : Colors.black,
-                    },
-                ]}>
-                {title}
-            </Text>
-            <Text
-                style={[
-                    styles.sectionDescription,
-                    {
-                        color: isDarkMode ? Colors.light : Colors.dark,
-                    },
-                ]}>
-                {children}
-            </Text>
-        </View>
-    );
-}
+import { useState } from 'react';
+import Formulario from './src/components/Formulario';
 
 function App(): JSX.Element {
+
+    const [modalVisible, setModalVisible] = useState(false)
+    const [pacientes, setPacientes] = useState([])
+
     const isDarkMode = useColorScheme() === 'dark';
 
     const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+        backgroundColor: '#FFF',
+        flex: 1,
     };
 
     return (
         <SafeAreaView style={backgroundStyle}>
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={backgroundStyle.backgroundColor}
-            />
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={backgroundStyle}>
-                <Header />
-                <View
-                    style={{
-                        backgroundColor: isDarkMode ? Colors.black : Colors.white,
-                    }}>
-                    <Section title="Step One">
-                        Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-                        screen and then come back to see your edits.
-                    </Section>
-                    <Section title="See Your Changes">
-                        <ReloadInstructions />
-                    </Section>
-                    <Section title="Debug">
-                        <DebugInstructions />
-                    </Section>
-                    <Section title="Learn More">
-                        Read the docs to discover what to do next:
-                    </Section>
-                    <LearnMoreLinks />
-                </View>
-            </ScrollView>
+            <StatusBar barStyle={'light-content'} backgroundColor={"#08568C"} />
+            <View style={styles.header}>
+                <Text style={styles.textHeader}>Bienvenido</Text>
+            </View>
+            <Text style={styles.titleModulo}>Administrador de citas {''}
+                <Text style={styles.subtitleModulo}>Veterinaria</Text>
+            </Text>
+            <View style={styles.containerButton}>
+                <Pressable style={styles.buttons} onPress={() => setModalVisible(true)}>
+                    <Text style={styles.textBtn}>Nueva Cita</Text>
+                </Pressable>
+                <Formulario
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    setPacientes={setPacientes}
+                    pacientes = {pacientes}
+                />
+            </View>
+
+            
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24,
+    textBtn : {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: "bold",
+        textTransform: "uppercase"
     },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600',
+    page: {
+        backgroundColor: '#fff'
     },
-    sectionDescription: {
-        marginTop: 8,
+    header: {
+        backgroundColor: '#08568C',
+        paddingTop: 10,
+        paddingBottom: 15
+    },
+    textHeader:{
+        textAlign: 'center',
+        fontWeight: 'bold',
         fontSize: 18,
-        fontWeight: '400',
+        color: '#fff'
     },
-    highlight: {
-        fontWeight: '700',
+    buttons:{
+        backgroundColor: "#08568C",
+        textAlign:'center',
+        padding:15,
+        borderRadius: 15,
+        marginTop: 20,
+        marginHorizontal: 20
+    },
+    containerButton:{
+        alignContent:'center',
+        justifyContent: 'center',
+    },
+    titleModulo:{
+        color: "#000",
+        fontSize : 25,
+        textAlign: "center",
+        marginTop: 15
+    },
+    subtitleModulo:{
+        color: "#08568C",
+        fontSize : 25,
+        textAlign: "center",
+        fontWeight: "bold",
     },
 });
 
